@@ -1,0 +1,6 @@
+
+# dm-ssbe-adapter
+
+A DataMapper Adapter for the System Shepherd flavor of ReST Web Services.
+
+
