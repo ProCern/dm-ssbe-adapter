@@ -3,7 +3,6 @@ class Service
   include DataMapper::Resource
 
   property :href,           Href,   :key => true
-  property :id,             String
   property :name,           String, :nullable => false
   property :resource_href,  Href,   :nullable => false
 
