@@ -10,7 +10,7 @@ class Service
   property :updated_at,     DateTime
 
   def self.[](name)
-    first(:name => name)
+    first(:name => name.to_s)
   end
 
 

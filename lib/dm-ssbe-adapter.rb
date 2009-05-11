@@ -1,5 +1,5 @@
 
-require 'dm-core'
+#require 'dm-core'
 require 'resourceful'
 require 'extlib'
 require 'json'
@@ -8,6 +8,7 @@ __DIR__ = File.dirname(__FILE__)
 require File.join(__DIR__, 'dm-ssbe-adapter', 'ssbe_authenticator')
 require File.join(__DIR__, 'dm-types', 'href')
 require File.join(__DIR__, 'dm-ssbe-adapter', 'service')
+require File.join(__DIR__, 'dm-ssbe-adapter', 'model_extensions')
 
 module DataMapper::Adapters
 
@@ -54,6 +55,7 @@ module DataMapper::Adapters
     end
 
     def read(query)
+      pp query
       ## [dm-core] need an easy way to determine if we're 
       # looking up a single record by key
       if querying_on_href?(query)
@@ -147,15 +149,25 @@ module DataMapper::Adapters
       ## [dm-core] Make it easy to add more things to a query
       collection_uri = if model == Service
                          @services_uri
-                       elsif query && uri = query.instance_variable_get(:@collection_uri)
-                         uri
-                       elsif uri = model.collection_uri
+                       elsif query && query.respond_to?(:location)
+                         query.location
+                       elsif query && uri = association_collection_uri(query)
                          uri
                        else
                          Service[model.service_name].resource_href
                        end
 
       http.resource(collection_uri, :accept => SSJ)
+    end
+
+    def association_collection_uri(query)
+      return false unless query.conditions.operands.size == 1
+
+      operand = query.conditions.operands.first
+      return false unless operand.is_a?(DataMapper::Conditions::EqualToComparison)
+      return false unless operand.property.name.to_s =~ /_href\Z/
+
+      operand.value
     end
 
   end

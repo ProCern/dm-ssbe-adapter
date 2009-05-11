@@ -1,10 +1,14 @@
 require 'rubygems'
 require 'thin'
 require 'testy'
+require 'pp'
+
+require '../../dm-core/lib/dm-core'
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'dm-ssbe-adapter'
+require 'dm-ssbe-adapter/model_extensions'
 
 require 'simple_sinatra_server'
 
