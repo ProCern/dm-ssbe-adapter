@@ -19,7 +19,7 @@ module DataMapper::Adapters
       super
 
       @http = Resourceful::HttpAccessor.new
-      @http.cache_manager = Resourceful::InMemoryCacheManager.new
+      #@http.cache_manager = Resourceful::InMemoryCacheManager.new
       @http.logger = options[:logger] || Resourceful::BitBucketLogger.new
     end
 
@@ -64,7 +64,6 @@ module DataMapper::Adapters
                  operand = query.conditions.operands.first
                  operand.value
                end
-        puts href
 
         http_resource = http.resource(href, :accept => SSJ)
         begin
@@ -77,7 +76,11 @@ module DataMapper::Adapters
           end
         end
         record = deserialize(response.body)
-        [record]
+        if record.has_key?(:items) 
+          query.filter_records(record[:items])
+        else
+          [record]
+        end
       else 
         resource = collection_resource_for(query)
         opts = {}

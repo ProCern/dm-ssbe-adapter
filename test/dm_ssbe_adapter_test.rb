@@ -36,12 +36,11 @@ Testy.testing 'dm-ssbe-adapter' do
   test 'connecting' do |r|
     r.check :services,
             :expect => 'AllServices',
-            :actual => Service.first.name
+            :actual => Service['AllServices'].name
   end
 
   test 'reading attributes' do |r|
     service = Service['AllServices']
-    puts service.inspect
 
     r.check :string,
       :expect => 'AllServices',
@@ -75,6 +74,8 @@ Testy.testing 'dm-ssbe-adapter' do
   test 'getting something through a collection reference association' do |r|
     article = Article.first
     comments = article.comments
+
+    pp comments
 
     r.check :comments,
       :expect => 2,
