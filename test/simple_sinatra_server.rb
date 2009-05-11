@@ -27,6 +27,10 @@ class App < Sinatra::Base
     erb :comments
   end
 
+  get '/articles/:article_id/comments/:id' do
+    erb :comment
+  end
+
 end
 
 __END__
@@ -102,6 +106,7 @@ __END__
   "href":          "http://localhost:5050/articles/<%= params[:article_id] %>/comments/1",
   "author":        "Paul",
   "text":          "This is the first comment on article <%= params[:article_id] %>", 
+  "article_href":  "http://localhost:5050/articles/<%= params[:article_id] %>",
   "created_at":    "2009-04-29T15:53:00-06:00",
   "updated_at":    "2009-04-29T15:53:00-06:00"
 },
@@ -110,10 +115,22 @@ __END__
   "href":          "http://localhost:5050/articles/<%= params[:article_id] %>/comments/2",
   "author":        "Erik",
   "text":          "This is the second comment on article <%= params[:article_id] %>", 
+  "article_href":  "http://localhost:5050/articles/<%= params[:article_id] %>",
   "created_at":    "2009-04-29T15:53:00-06:00",
   "updated_at":    "2009-04-29T15:53:00-06:00"
 }
   ]
+}
+
+@@comment
+{
+  "_type":         "Comment",
+  "href":          "http://localhost:5050/articles/<%= params[:article_id] %>/comments/<%= params[:id] %>",
+  "author":        "Erik",
+  "text":          "This is the second comment on article <%= params[:article_id] %>", 
+  "article_href":  "http://localhost:5050/articles/<%= params[:article_id] %>",
+  "created_at":    "2009-04-29T15:53:00-06:00",
+  "updated_at":    "2009-04-29T15:53:00-06:00"
 }
 
 

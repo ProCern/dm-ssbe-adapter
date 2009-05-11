@@ -33,52 +33,61 @@ class Comment
 end
 
 Testy.testing 'dm-ssbe-adapter' do
-  # test 'connecting' do |r|
-  #   r.check :services,
-  #           :expect => 'AllServices',
-  #           :actual => Service.first.name
-  # end
+  test 'connecting' do |r|
+    r.check :services,
+            :expect => 'AllServices',
+            :actual => Service.first.name
+  end
 
-  # test 'reading attributes' do |r|
-  #   service = Service['AllServices']
-  #   puts service.inspect
+  test 'reading attributes' do |r|
+    service = Service['AllServices']
+    puts service.inspect
 
-  #   r.check :string,
-  #     :expect => 'AllServices',
-  #     :actual => service.name
+    r.check :string,
+      :expect => 'AllServices',
+      :actual => service.name
 
-  #   r.check :href,
-  #     :expect => 'http://localhost:5050/services',
-  #     :actual => service.resource_href
+    r.check :href,
+      :expect => 'http://localhost:5050/services',
+      :actual => service.resource_href
 
-  #   r.check :datetimes,
-  #     :expect => DateTime.parse('2009-04-29T15:53:00-06:00'),
-  #     :actual => service.created_at
-  # end
+    r.check :datetimes,
+      :expect => DateTime.parse('2009-04-29T15:53:00-06:00'),
+      :actual => service.created_at
+  end
 
-  # test 'getting something from its service name' do |r|
-  #   articles = Article.all
+  test 'getting something from its service name' do |r|
+    articles = Article.all
 
-  #   r.check :collection,
-  #     :expect => 2,
-  #     :actual => articles.size
-  # end
+    r.check :collection,
+      :expect => 2,
+      :actual => articles.size
+  end
 
-  # test 'getting something by its href' do |r|
-  #   article = Article.get('http://localhost:5050/articles/1')
+  test 'getting something by its href' do |r|
+    article = Article.get('http://localhost:5050/articles/1')
 
-  #   r.check :text,
-  #     :expect => "Something different from the index, so we can get which GET we used", 
-  #     :actual => article.text
-  # end
+    r.check :text,
+      :expect => "Something different from the index, so we can get which GET we used", 
+      :actual => article.text
+  end
 
-  test 'getting something through an association' do |r|
+  test 'getting something through a collection reference association' do |r|
     article = Article.first
     comments = article.comments
 
     r.check :comments,
       :expect => 2,
       :actual => comments.size
+  end
+
+  test 'getting something through a single reference association' do |r|
+    article = Article.get('http://localhost:5050/articles/1')
+    comment = Comment.get('http://localhost:5050/articles/1/comments/1')
+
+    r.check :article, 
+      :expect => article.title,
+      :actual => comment.article.title
   end
 
 end

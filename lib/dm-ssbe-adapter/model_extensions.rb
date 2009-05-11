@@ -21,11 +21,10 @@ module DataMapper
     end
 
     def refers_to(name, options = {})
-      options.merge!(:min => 0, :max => 1)
       options[:child_repository_name]  = options.delete(:repository)
       options[:parent_repository_name] = repository.name
 
-      rel = Reference.new(name, nil, self, options)
+      rel = Reference.new(name, self, nil, options)
       relationships(repository.name)[name] = rel
     end
 
@@ -43,9 +42,12 @@ module DataMapper
     end
 
     def assert_valid_options(options)
-      location = options.delete(:location)
-      super
-      options[:location] = location if location
+    end
+
+    def location=(location)
+      @location = location
+      @options = @options.dup # Why do you hate freedom?
+      @options[:location] = location # so copy works
     end
 
   end
@@ -77,7 +79,25 @@ module DataMapper
 
   end
 
-  class Reference < Associations::OneToOne::Relationship
+  class Reference < Associations::ManyToOne::Relationship
+
+    def query_for(source, other_query = nil)
+      query = super
+      query.extend(SsbeQueryExtensions)
+      query.location = reference_property.get(source)
+      query
+    end
+
+    def source_scope(source)
+      #{:location => child_key.get(source)}
+      {}
+    end
+
+    def reference_property
+      property_name = "#{name}_href".to_sym
+
+      child_model.properties(parent_repository_name)[property_name]
+    end
 
   end
 

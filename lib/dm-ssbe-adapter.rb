@@ -55,12 +55,16 @@ module DataMapper::Adapters
     end
 
     def read(query)
-      pp query
       ## [dm-core] need an easy way to determine if we're 
       # looking up a single record by key
       if querying_on_href?(query)
-        operand = query.conditions.operands.first
-        href = operand.value
+        href = if query.respond_to?(:location)
+                 query.location
+               else
+                 operand = query.conditions.operands.first
+                 operand.value
+               end
+        puts href
 
         http_resource = http.resource(href, :accept => SSJ)
         begin
@@ -130,6 +134,8 @@ module DataMapper::Adapters
     end
 
     def querying_on_href?(query)
+      return true if query.respond_to?(:location) && query.location
+
       return false unless query.conditions.operands.size == 1
 
       operand = query.conditions.operands.first
