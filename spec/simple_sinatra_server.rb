@@ -19,6 +19,10 @@ class App < Sinatra::Base
     erb :articles
   end
 
+  post '/articles' do
+    erb :article
+  end
+
   get '/articles/:id' do
     erb :article
   end
@@ -70,7 +74,7 @@ __END__
   "title":         "First Article",
   "text":          "This is the first article", 
   "comments_href": "http://localhost:5050/articles/1/comments",
-  "created_at":    "2009-04-29T15:53:00-06:00",
+  "published_at":    "2009-04-29T15:53:00-06:00",
   "updated_at":    "2009-04-29T15:53:00-06:00"
 },
 {
@@ -79,7 +83,7 @@ __END__
   "title":         "Second Article",
   "text":          "This is the second article", 
   "comments_href": "http://localhost:5050/articles/2/comments",
-  "created_at":    "2009-04-29T15:53:00-06:00",
+  "published_at":    "2009-04-29T15:53:00-06:00",
   "updated_at":    "2009-04-29T15:53:00-06:00"
 }
   ]
@@ -92,7 +96,7 @@ __END__
   "title":         "First Article",
   "text":          "Something different from the index, so we can get which GET we used", 
   "comments_href": "http://localhost:5050/articles/<%= params[:id] %>/comments",
-  "created_at":    "2009-04-29T15:53:00-06:00",
+  "published_at":    "2009-04-29T15:53:00-06:00",
   "updated_at":    "2009-04-29T15:53:00-06:00"
 }
 
