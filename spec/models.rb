@@ -1,5 +1,9 @@
 class Article
   include DataMapper::Resource
+  def self.default_repository_name
+    :ssbe
+  end
+
   service_name :AllArticles
 
   property :href,         String, :key => true
@@ -14,6 +18,10 @@ end
 
 class Comment
   include DataMapper::Resource
+  def self.default_repository_name
+    :ssbe
+  end
+
 
   property :href,         String, :key => true
   property :author,       String

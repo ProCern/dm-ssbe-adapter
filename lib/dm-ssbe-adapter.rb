@@ -19,7 +19,7 @@ module DataMapper::Adapters
       super
 
       @http = Resourceful::HttpAccessor.new
-      #@http.cache_manager = Resourceful::InMemoryCacheManager.new
+      @http.cache_manager = Resourceful::InMemoryCacheManager.new
       @http.logger = options[:logger] || Resourceful::BitBucketLogger.new
     end
 
@@ -126,10 +126,10 @@ module DataMapper::Adapters
 
     def serialize(resource_or_attributes)
       if resource_or_attributes.is_a?(DataMapper::Resource)
-        resource_or_attributes.attributes(:field).merge(:_type => resource_or_attributes.model)
+        attributes_as_fields(resource_or_attributes.dirty_attributes)
       else
-        attributes_as_fields(resource_or_attributes).merge(:_type => resource_or_attributes.keys.first.model)
-      end.to_json
+        attributes_as_fields(resource_or_attributes)
+      end.merge(:_type => resource_or_attributes.model).to_json
     end
 
     def deserialize(document)

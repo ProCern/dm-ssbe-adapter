@@ -10,7 +10,7 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'dm-ssbe-adapter'
 require 'dm-ssbe-adapter/model_extensions'
 
-DataMapper.setup(:default, :adapter => :ssbe,
+DataMapper.setup(:ssbe, :adapter => :ssbe,
                  :username => 'admin',
                  :password => 'admin',
                  :services_uri => 'http://localhost:5050/services',
