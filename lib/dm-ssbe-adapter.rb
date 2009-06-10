@@ -142,7 +142,7 @@ module DataMapper::Adapters
       return false unless query.conditions.operands.size == 1
 
       operand = query.conditions.operands.first
-      return false unless operand.is_a?(DataMapper::Conditions::EqualToComparison)
+      return false unless operand.is_a?(DataMapper::Query::Conditions::EqualToComparison)
 
       query.model.key.first == operand.property
     end
@@ -173,7 +173,7 @@ module DataMapper::Adapters
       return false unless query.conditions.operands.size == 1
 
       operand = query.conditions.operands.first
-      return false unless operand.is_a?(DataMapper::Conditions::EqualToComparison)
+      return false unless operand.is_a?(DataMapper::Query::Conditions::EqualToComparison)
       return false unless operand.property.name.to_s =~ /_href\Z/
 
       operand.value

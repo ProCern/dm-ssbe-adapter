@@ -6,28 +6,32 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Paul Sadauskas"]
-  s.date = %q{2009-05-29}
+  s.date = %q{2009-06-10}
   s.email = %q{psadauskas@gmail.com}
   s.extra_rdoc_files = [
     "LICENSE",
-    "README.mkd"
+     "README.mkd"
   ]
   s.files = [
-    "LICENSE",
-    "README.mkd",
-    "Rakefile",
-    "VERSION.yml",
-    "lib/dm-ssbe-adapter.rb",
-    "lib/dm-ssbe-adapter/model_extensions.rb",
-    "lib/dm-ssbe-adapter/service.rb",
-    "lib/dm-ssbe-adapter/ssbe_authenticator.rb",
-    "lib/dm-types/href.rb",
-    "spec/create_spec.rb",
-    "spec/models.rb",
-    "spec/reading_spec.rb",
-    "spec/simple_sinatra_server.rb",
-    "spec/spec.opts",
-    "spec/spec_helper.rb"
+    ".document",
+     ".gitignore",
+     "LICENSE",
+     "README.mkd",
+     "Rakefile",
+     "VERSION.yml",
+     "dm-ssbe-adapter.gemspec",
+     "example.rb",
+     "lib/dm-ssbe-adapter.rb",
+     "lib/dm-ssbe-adapter/model_extensions.rb",
+     "lib/dm-ssbe-adapter/service.rb",
+     "lib/dm-ssbe-adapter/ssbe_authenticator.rb",
+     "lib/dm-types/href.rb",
+     "spec/create_spec.rb",
+     "spec/models.rb",
+     "spec/reading_spec.rb",
+     "spec/simple_sinatra_server.rb",
+     "spec/spec.opts",
+     "spec/spec_helper.rb"
   ]
   s.homepage = %q{http://github.com/absperf/dm-ssbe-adapter}
   s.rdoc_options = ["--charset=UTF-8"]
@@ -36,10 +40,10 @@ Gem::Specification.new do |s|
   s.summary = %q{A DataMapper adapter for System Shepherd flavored REST services}
   s.test_files = [
     "spec/simple_sinatra_server.rb",
-    "spec/reading_spec.rb",
-    "spec/spec_helper.rb",
-    "spec/create_spec.rb",
-    "spec/models.rb"
+     "spec/reading_spec.rb",
+     "spec/spec_helper.rb",
+     "spec/create_spec.rb",
+     "spec/models.rb"
   ]
 
   if s.respond_to? :specification_version then
