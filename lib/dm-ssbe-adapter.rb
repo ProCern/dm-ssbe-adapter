@@ -144,7 +144,7 @@ module DataMapper::Adapters
       operand = query.conditions.operands.first
       return false unless operand.is_a?(DataMapper::Query::Conditions::EqualToComparison)
 
-      query.model.key.first == operand.property
+      query.model.key.first == operand.subject
     end
 
     def collection_resource_for(query_or_model)
@@ -174,7 +174,7 @@ module DataMapper::Adapters
 
       operand = query.conditions.operands.first
       return false unless operand.is_a?(DataMapper::Query::Conditions::EqualToComparison)
-      return false unless operand.property.name.to_s =~ /_href\Z/
+      return false unless operand.subject.name.to_s =~ /_href\Z/
 
       operand.value
     end
