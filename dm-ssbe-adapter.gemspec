@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Paul Sadauskas"]
-  s.date = %q{2009-06-10}
+  s.date = %q{2009-07-22}
   s.email = %q{psadauskas@gmail.com}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -39,11 +39,11 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.3}
   s.summary = %q{A DataMapper adapter for System Shepherd flavored REST services}
   s.test_files = [
-    "spec/simple_sinatra_server.rb",
-     "spec/reading_spec.rb",
+    "spec/reading_spec.rb",
+     "spec/models.rb",
      "spec/spec_helper.rb",
-     "spec/create_spec.rb",
-     "spec/models.rb"
+     "spec/simple_sinatra_server.rb",
+     "spec/create_spec.rb"
   ]
 
   if s.respond_to? :specification_version then
