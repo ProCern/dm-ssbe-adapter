@@ -37,7 +37,7 @@ module DataMapper
     attr_accessor :location
 
     def initialize(repository, model, options = {})
-      super
+      #super
       @location = @options.fetch(:location, nil)
     end
 

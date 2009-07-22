@@ -22,7 +22,6 @@ class Comment
     :ssbe
   end
 
-
   property :href,         String, :key => true
   property :author,       String
   property :text,         String

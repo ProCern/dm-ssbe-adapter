@@ -1,12 +1,13 @@
 
 require 'rubygems'
+require 'dm-core'
 require 'thin'
 require 'pp'
 
-require '../../dm-core/lib/dm-core'
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
+
 require 'dm-ssbe-adapter'
 require 'dm-ssbe-adapter/model_extensions'
 
@@ -21,9 +22,7 @@ require 'models'
 require 'simple_sinatra_server'
 
 @server = Thread.new do
-
   Thin::Server.start('0.0.0.0', 5050, App, :debug => false)
-
 end unless @server
 
 at_exit { @server.exit }

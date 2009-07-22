@@ -31,6 +31,10 @@ class App < Sinatra::Base
     erb :comments
   end
 
+  post '/articles/:article_id/comments' do
+    erb :comment
+  end
+
   get '/articles/:article_id/comments/:id' do
     erb :comment
   end
