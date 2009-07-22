@@ -28,9 +28,29 @@ module DataMapper
       relationships(repository.name)[name] = rel
     end
 
+    attr_reader :parent_relationship, :parent_property_name
+    def collection_resource(name = nil, opts = {})
+      @parent_relationship = name
+      @parent_property_name = opts[:property] || "#{self.name.to_s.downcase}s_href".to_sym
+    end
+
   end
 
   Model.send(:include, SsbeModelExtensions)
+
+  module SsbeResourceExtensions
+
+    def collection_resource
+      relationship = relationships[model.parent_relationship]
+      parent_resource = send(relationship.name)
+      property = relationship.parent_model.properties(relationship.parent_repository_name)[model.parent_property_name]
+
+      property.get(parent_resource)
+    end
+
+  end
+
+  Resource.send(:include, SsbeResourceExtensions)
 
   module SsbeQueryExtensions
 

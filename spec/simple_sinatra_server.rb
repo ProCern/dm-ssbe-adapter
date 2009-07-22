@@ -20,6 +20,7 @@ class App < Sinatra::Base
   end
 
   post '/articles' do
+    params[:id] = 1
     erb :article
   end
 

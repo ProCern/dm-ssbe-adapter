@@ -45,7 +45,7 @@ module DataMapper::Adapters
 
     def create(resources)
       resources.each do |resource|
-        http_resource = collection_resource_for(resource.model)
+        http_resource = collection_resource_for(resource)
         document = serialize(resource)
 
         response = http_resource.post(document, :content_type => SSJ)
@@ -147,12 +147,17 @@ module DataMapper::Adapters
       query.model.key.first == operand.subject
     end
 
-    def collection_resource_for(query_or_model)
-      if query_or_model.is_a?(DataMapper::Query)
-        query = query_or_model
+    def collection_resource_for(object)
+      if object.is_a?(DataMapper::Query)
+        query = object
         model = query.model
+      elsif object.is_a?(DataMapper::Model)
+        model = object
+      elsif object.is_a?(DataMapper::Resource)
+        resource = object
+        model    = resource.model
       else
-        model = query_or_model
+        raise ArgumentError, "Unable to determine collection resource for #{object}"
       end
 
       ## [dm-core] Make it easy to add more things to a query
@@ -162,8 +167,10 @@ module DataMapper::Adapters
                          query.location
                        elsif query && uri = association_collection_uri(query)
                          uri
-                       else
-                         Service[model.service_name].resource_href
+                       elsif model && service = Service[model.service_name]
+                         service.resource_href
+                       elsif resource
+                         resource.collection_resource
                        end
 
       http.resource(collection_uri, :accept => SSJ)

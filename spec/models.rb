@@ -29,6 +29,9 @@ class Comment
   property :article_href, Href
 
   refers_to :article
+
+  collection_resource :article
+
 end
 
 
