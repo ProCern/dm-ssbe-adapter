@@ -174,7 +174,14 @@ module DataMapper::Adapters
                        elsif model && service = Service[model.service_name]
                          service.resource_href
                        elsif resource 
-                         pp resource
+                         # TODO: make this work if there's more than one relationship defined
+                         # on the child, and just more robust in general
+                         relationship = resource.model.relationships.values.first
+                         parent_relationship = relationship.inverse
+                         parent_property_name = "#{parent_relationship.name}_href".to_sym
+                         parent_resource = resource.send(relationship.name)
+
+                         parent_resource.attribute_get(parent_property_name)
                        end
 
       http.resource(collection_uri, :accept => SSJ)
