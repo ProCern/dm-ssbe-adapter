@@ -32,6 +32,11 @@ class App < Sinatra::Base
     erb :comments
   end
 
+  get '/articles/:article_id/comments/last' do
+    params[:id] = 1
+    erb :comment
+  end
+
   post '/articles/:article_id/comments' do
     erb :comment
   end
@@ -74,13 +79,14 @@ __END__
   "item_count": 2,
   "items":      [
 {
-  "_type":         "Article",
-  "href":          "http://localhost:5050/articles/1",
-  "title":         "First Article",
-  "text":          "This is the first article", 
-  "comments_href": "http://localhost:5050/articles/1/comments",
-  "published_at":    "2009-04-29T15:53:00-06:00",
-  "updated_at":    "2009-04-29T15:53:00-06:00"
+  "_type":              "Article",
+  "href":               "http://localhost:5050/articles/1",
+  "title":              "First Article",
+  "text":               "This is the first article", 
+  "comments_href":      "http://localhost:5050/articles/1/comments/latest",
+  "last_comment_href":  "http://localhost:5050/articles/1/comments/latest",
+  "published_at":       "2009-04-29T15:53:00-06:00",
+  "updated_at":         "2009-04-29T15:53:00-06:00"
 },
 {
   "_type":         "Article",
@@ -88,6 +94,7 @@ __END__
   "title":         "Second Article",
   "text":          "This is the second article", 
   "comments_href": "http://localhost:5050/articles/2/comments",
+  "last_comment_href":  "http://localhost:5050/articles/2/comments/latest",
   "published_at":    "2009-04-29T15:53:00-06:00",
   "updated_at":    "2009-04-29T15:53:00-06:00"
 }
@@ -101,6 +108,7 @@ __END__
   "title":         "First Article",
   "text":          "Something different from the index, so we can get which GET we used", 
   "comments_href": "http://localhost:5050/articles/<%= params[:id] %>/comments",
+  "last_comment_href":  "http://localhost:5050/articles/<%= params[:id] %>/comments/latest",
   "published_at":    "2009-04-29T15:53:00-06:00",
   "updated_at":    "2009-04-29T15:53:00-06:00"
 }

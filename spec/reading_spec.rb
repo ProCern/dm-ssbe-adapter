@@ -12,19 +12,6 @@ describe 'reading' do
     article.text.should == "Something different from the index, so we can get which GET we used"
   end
 
-  it 'should get a collection from a reference' do
-    comments = Article.first.comments
-
-    comments.size.should == 2
-  end
-
-  it 'should get a record from a reference' do
-    article = Article.get("http://localhost:5050/articles/1")
-    comment = Comment.get("http://localhost:5050/articles/1/comments/1")
-
-    comment.article.should == article
-  end
-
   describe 'attributes' do
     before do
       @article = Article.get("http://localhost:5050/articles/1")

@@ -58,11 +58,13 @@ module DataMapper::Adapters
       ## [dm-core] need an easy way to determine if we're 
       # looking up a single record by key
       if querying_on_href?(query)
-        href = if query.respond_to?(:location)
-                 query.location
-               else
-                 operand = query.conditions.operands.first
+        operand = query.conditions.operands.first
+        href = case operand.subject
+               when DataMapper::Property
                  operand.value
+               when DataMapper::Associations::Relationship
+                 property_name = "#{operand.subject.inverse.name}_href".to_sym
+                 operand.value.attribute_get(property_name)
                end
 
         http_resource = http.resource(href, :accept => SSJ)
@@ -137,14 +139,19 @@ module DataMapper::Adapters
     end
 
     def querying_on_href?(query)
-      return true if query.respond_to?(:location) && query.location
-
       return false unless query.conditions.operands.size == 1
 
       operand = query.conditions.operands.first
       return false unless operand.is_a?(DataMapper::Query::Conditions::EqualToComparison)
 
-      query.model.key.first == operand.subject
+      case operand.subject
+      when DataMapper::Property
+        # .get("http://articles/1")
+        query.model.key.first == operand.subject
+      when DataMapper::Associations::OneToMany::Relationship
+        # many to one (comment.article), but DM inverts it for the query
+        true
+      end
     end
 
     def collection_resource_for(object)
@@ -155,22 +162,19 @@ module DataMapper::Adapters
         model = object
       elsif object.is_a?(DataMapper::Resource)
         resource = object
-        model    = resource.model
+        model = resource.model
       else
         raise ArgumentError, "Unable to determine collection resource for #{object}"
       end
 
-      ## [dm-core] Make it easy to add more things to a query
       collection_uri = if model == Service
                          @services_uri
-                       elsif query && query.respond_to?(:location)
-                         query.location
                        elsif query && uri = association_collection_uri(query)
                          uri
                        elsif model && service = Service[model.service_name]
                          service.resource_href
-                       elsif resource
-                         resource.collection_resource
+                       elsif resource 
+                         pp resource
                        end
 
       http.resource(collection_uri, :accept => SSJ)
@@ -181,9 +185,17 @@ module DataMapper::Adapters
 
       operand = query.conditions.operands.first
       return false unless operand.is_a?(DataMapper::Query::Conditions::EqualToComparison)
-      return false unless operand.subject.name.to_s =~ /_href\Z/
 
-      operand.value
+      case operand.subject
+      when DataMapper::Property
+        operand.value
+      when DataMapper::Associations::ManyToOne::Relationship
+        # DataMapper passes it to the adapters backwards, so this is for
+        # article.comments 
+        inverse_relationship = operand.subject.inverse
+        property_name = "#{inverse_relationship.name}_href".to_sym
+        operand.value.attribute_get(property_name)
+      end
     end
 
   end

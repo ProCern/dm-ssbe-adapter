@@ -11,9 +11,12 @@ class Article
   property :text,         String
   property :published_at, Time
 
-  property :comments_href, Href
+  property :comments_href,      Href
+  property :last_comment_href,  Href
 
-  refers_to_collection_of :comments
+  has n, :comments
+
+  has 1, :last_comment, :model => "Comment"
 end
 
 class Comment
@@ -28,10 +31,7 @@ class Comment
 
   property :article_href, Href
 
-  refers_to :article
-
-  collection_resource :article
-
+  belongs_to :article, :inverse => Article.relationships[:comments]
 end
 
 

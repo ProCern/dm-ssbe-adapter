@@ -17,8 +17,8 @@ describe 'creating' do
 
     it "should work when assigning the relationship directly" do
       comment = Comment.new(:author => "Paul",
-                               :text => "Lorem Ipsum",
-                               :article => @article)
+                            :text => "Lorem Ipsum",
+                            :article => @article)
 
       comment.article.should == @article
       comment.article_href.should == @article.href
