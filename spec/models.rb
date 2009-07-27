@@ -25,6 +25,8 @@ class Comment
     :ssbe
   end
 
+  service_name :AllComments
+
   property :href,         String, :key => true
   property :author,       String
   property :text,         String

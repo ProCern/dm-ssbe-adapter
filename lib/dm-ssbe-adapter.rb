@@ -195,6 +195,7 @@ module DataMapper::Adapters
 
       case operand.subject
       when DataMapper::Property
+        return false unless operand.subject.type == DataMapper::Types::Href
         operand.value
       when DataMapper::Associations::ManyToOne::Relationship
         # DataMapper passes it to the adapters backwards, so this is for

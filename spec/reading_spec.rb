@@ -12,6 +12,11 @@ describe 'reading' do
     article.text.should == "Something different from the index, so we can get which GET we used"
   end
 
+  it "should get something by the collection uri if no lookup href is specified" do
+    comment = Comment.first(:author => "Paul")
+    comment.text.should =~ /first comment/
+  end
+
   describe 'attributes' do
     before do
       @article = Article.get("http://localhost:5050/articles/1")

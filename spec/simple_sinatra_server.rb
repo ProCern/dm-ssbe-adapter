@@ -45,6 +45,10 @@ class App < Sinatra::Base
     erb :comment
   end
 
+  get '/comments' do
+    erb :comments
+  end
+
 end
 
 __END__
@@ -67,6 +71,14 @@ __END__
   "href":          "http://localhost:5050/services/AllArticles",
   "name":          "AllArticles",
   "resource_href": "http://localhost:5050/articles",
+  "created_at":    "2009-04-29T15:53:00-06:00",
+  "updated_at":    "2009-04-29T15:53:00-06:00"
+},
+{
+  "_type":         "Service",
+  "href":          "http://localhost:5050/services/AllComments",
+  "name":          "AllComments",
+  "resource_href": "http://localhost:5050/comments",
   "created_at":    "2009-04-29T15:53:00-06:00",
   "updated_at":    "2009-04-29T15:53:00-06:00"
 }
