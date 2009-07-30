@@ -18,12 +18,12 @@ class Service
   end
 
   def self.register(name, resource_href)
-    if service = self.first(:name => name)
-      service.href = href
+    if service = self.first(:name => name.to_s)
+      service.resource_href = resource_href
       service.save
     else
       service = self.create(:name => name.to_s,
-                            :resource_href => href.to_s)
+                            :resource_href => resource_href)
     end
 
     service
