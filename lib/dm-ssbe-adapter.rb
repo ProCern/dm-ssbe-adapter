@@ -98,7 +98,7 @@ module DataMapper::Adapters
     def update(attributes, collection)
       collection.each do |resource|
         http_resource = http.resource(resource.href, :accept => SSJ)
-        response = http_resource.put(serialize(attributes), :content_type => SSJ)
+        response = http_resource.put(serialize(attributes, collection.model), :content_type => SSJ)
 
         update_attributes(resource, deserialize(response.body))
       end
@@ -126,12 +126,13 @@ module DataMapper::Adapters
       resource
     end
 
-    def serialize(resource_or_attributes)
+    def serialize(resource_or_attributes, model = nil)
       if resource_or_attributes.is_a?(DataMapper::Resource)
+        model = resource_or_attributes.model
         attributes_as_fields(resource_or_attributes.dirty_attributes)
       else
         attributes_as_fields(resource_or_attributes)
-      end.merge(:_type => resource_or_attributes.model).to_json
+      end.merge(:_type => model).to_json
     end
 
     def deserialize(document)
