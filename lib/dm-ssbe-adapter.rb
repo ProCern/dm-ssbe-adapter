@@ -20,7 +20,7 @@ module DataMapper::Adapters
 
       @http = Resourceful::HttpAccessor.new
       @http.cache_manager = Resourceful::InMemoryCacheManager.new
-      @http.logger = options[:logger] || Resourceful::BitBucketLogger.new
+      @http.logger = DataMapper.logger
     end
 
     def logger
