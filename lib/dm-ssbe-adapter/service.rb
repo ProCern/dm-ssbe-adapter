@@ -2,10 +2,6 @@
 class Service
   include DataMapper::Resource
 
-  def self.default_repository_name
-    :ssbe
-  end
-
   property :href,           Href,   :key => true, :serial => true
   property :name,           String, :nullable => false
   property :resource_href,  Href,   :nullable => false

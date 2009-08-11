@@ -3,6 +3,14 @@ module DataMapper
 
   module SsbeModelExtensions
 
+    def default_repository_name
+      @default_repository_name || Repository.default_name
+    end
+
+    def default_repository_name=(name)
+      @default_repository_name = name
+    end
+
     def service_name(name = nil)
       if name
         @service_name = name

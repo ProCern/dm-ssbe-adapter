@@ -7,8 +7,8 @@ require 'json'
 __DIR__ = File.dirname(__FILE__)
 require File.join(__DIR__, 'dm-ssbe-adapter', 'ssbe_authenticator')
 require File.join(__DIR__, 'dm-types', 'href')
-require File.join(__DIR__, 'dm-ssbe-adapter', 'service')
 require File.join(__DIR__, 'dm-ssbe-adapter', 'model_extensions')
+require File.join(__DIR__, 'dm-ssbe-adapter', 'service')
 
 module DataMapper::Adapters
 
@@ -41,6 +41,8 @@ module DataMapper::Adapters
       http.add_authenticator(Resourceful::SSBEAuthenticator.new(username, password))
 
       @services_uri = options[:services_uri]
+
+      Service.default_repository_name = @name
     end
 
     def create(resources)
